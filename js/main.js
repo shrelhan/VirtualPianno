@@ -1,6 +1,11 @@
+// Declared variables
+// Var for currentSongNumber
 var currentSongNumber = 1;
+// Var for loop
 var willLoop = 0;
+// Var for shuffle
 var willShuffle = 0;
+// Array of objects (song details)
 var songs = [
     {
         name: 'Rang Sawla',
@@ -35,6 +40,7 @@ var songs = [
         image: 'pendu.jpg'
     }
 ];
+// function for toggling the song
 function toggleSong() {
         var song = document.querySelector('audio');
         if(song.paused == true) {
@@ -48,6 +54,7 @@ function toggleSong() {
             song.pause();
         }
     }
+    // function for fancy time like minutes and seconds
 function fancyTimeFormat(time) {
     // Hours, minutes and seconds
     var hrs = ~~(time / 3600);
@@ -65,7 +72,7 @@ function fancyTimeFormat(time) {
     ret += "" + secs;
     return ret;
 }
-
+// function to update current time every second
 function updateCurrentTime() {
     var song = document.querySelector('audio');
     // console.log(song.currentTime);
@@ -78,6 +85,7 @@ function updateCurrentTime() {
     $('.time-elapsed').text(currentTime);
     $('.song-duration').text(duration);
 }
+// This is window on load function to load Declared functions at first
 window.onload = function() {
     changeCurrentNameDetails(songs[0]);
     songs.forEach(function(song , index) {
@@ -97,6 +105,7 @@ window.onload = function() {
         paging: false
     });
 }
+// function to add song name from above declared array of objects
 function addSongNameClickEvent(songObj, pos) {
     var id = '#song' + pos;
     var audio = document.querySelector('audio');
@@ -114,12 +123,14 @@ function addSongNameClickEvent(songObj, pos) {
         }
     });
 }
+// function to add song name details from above declared array of objects
 function changeCurrentNameDetails(songObj) {
     // Code goes here
     $('.current-song-image').attr('src','img/' + songObj.image)
     $('.current-song-name').text(songObj.name)
     $('.current-song-album').text(songObj.album)
 }
+// is used to show error to user if length <= 2
     $('.welcome-screen button').on('click', function() {
         var name = $('#name-input').val();
         if (name.length > 2) {
@@ -131,9 +142,11 @@ function changeCurrentNameDetails(songObj) {
             $('#name-input').addClass('error');
         }
     });
+    // to toggle and change color of play icon
     $('.play-icon').on('click', function() {
         toggleSong();
     });
+    // used to toggle song using spacebar
     $('body').on('keypress', function(event) {
                 if (event.keyCode == 32 && event.target.tagName != 'INPUT') {
                     toggleSong();
@@ -149,6 +162,7 @@ function changeCurrentNameDetails(songObj) {
             });
             $('audio').on('ended',function() {
     var audio = document.querySelector('audio');
+    // used to activate looping of songs
     if(currentSongNumber < 4) {
         var nextSongObj = songs[currentSongNumber];
         audio.src = nextSongObj.fileName;
@@ -168,6 +182,7 @@ function changeCurrentNameDetails(songObj) {
         audio.currentTime = 0;
     }
 })
+// to shuffle the song 
 function randomExcluded(min, max, excluded) {
     var n = Math.floor(Math.random() * (max-min) + min);
     if (n >= excluded) n++;
